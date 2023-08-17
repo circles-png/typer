@@ -21,7 +21,8 @@ const App = () => {
           element.click()
           document.body.removeChild(element)
         },
-        [ wordCount, setWordCount ] = useState(0)
+        [ wordCount, setWordCount ] = useState(0),
+        [ charCount, setCharCount ] = useState(0)
 
   return <>
     <div className='grid place-content-center h-full bg-gray-100 caret-black'>
@@ -38,6 +39,7 @@ const App = () => {
                 .match(/\b[a-z\d]+\b/ug) || []
             ).length
           )
+          setCharCount(event.currentTarget.value.length)
         }}
         onKeyDown={event => {
           if (event.key === 'Tab') {
@@ -71,6 +73,7 @@ const App = () => {
           <span className='rounded-lg border px-1'>save</span>
         </button>
         <span>words: {wordCount}</span>
+        <span>characters: {charCount}</span>
       </span>
     </div>
   </>
