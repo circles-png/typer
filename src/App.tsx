@@ -1,5 +1,5 @@
 import useOperatingSystem, { OperatingSystem } from 'useOperatingSystem'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import classNames from 'classNames'
 
 const App = () => {
@@ -32,10 +32,21 @@ const App = () => {
         },
         os = useOperatingSystem()
 
-  if (darkMode)
+  if (darkMode) {
     document.body.classList.add('dark')
-  else
+    localStorage.setItem('theme', 'dark')
+  } else {
     document.body.classList.remove('dark')
+    localStorage.setItem('theme', 'light')
+  }
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+      setDarkMode(true)
+    else
+      setDarkMode(false)
+  }, [])
+
   return <>
     <div
       className={classNames(
@@ -84,7 +95,7 @@ const App = () => {
         cols={1000}
         rows={1000}
       />
-      <span className='flex divide-x-2 divide-gray-300 [&>*]:px-4 [&>*:last-child]:pr-0 [&>*:first-child]:pl-0 items-end shadow-lg rounded-xl border p-2 text-sm justify-center m-auto my-4 dark:divide-gray-700 transition duration-1000 border-gray-300 dark:border-gray-700'>
+      <span className='flex divide-x-2 divide-gray-300 [&>*]:px-4 [&>*:last-child]:pr-0 [&>*:first-child]:pl-0 items-end shadow-lg rounded-xl border p-2 text-sm justify-center m-auto my-4 dark:divide-gray-700 border-gray-300 dark:border-gray-700'>
         <button
           className='flex flex-col items-center'
           onClick={toggleDark}
@@ -97,7 +108,7 @@ const App = () => {
             }
             <span>B</span>
           </span>
-          <span className='rounded-lg border px-1 transition duration-1000 border-gray-300 dark:border-gray-700'>
+          <span className='rounded-lg border px-1 border-gray-300 dark:border-gray-700'>
             {
               darkMode
                 ? 'dark'
@@ -117,7 +128,7 @@ const App = () => {
             }
             <span>S</span>
           </span>
-          <span className='rounded-lg border px-1 transition duration-1000 border-gray-300 dark:border-gray-700'>save</span>
+          <span className='rounded-lg border px-1 border-gray-300 dark:border-gray-700'>save</span>
         </button>
         <span>words: {wordCount}</span>
         <span>characters: {charCount} ({byteCount} bytes)</span>
