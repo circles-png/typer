@@ -22,7 +22,8 @@ const App = () => {
           document.body.removeChild(element)
         },
         [ wordCount, setWordCount ] = useState(0),
-        [ charCount, setCharCount ] = useState(0)
+        [ charCount, setCharCount ] = useState(0),
+        [ byteCount, setByteCount ] = useState(0)
 
   return <>
     <div className='grid place-content-center h-full bg-gray-100 caret-black'>
@@ -40,6 +41,7 @@ const App = () => {
             ).length
           )
           setCharCount(event.currentTarget.value.length)
+          setByteCount(new TextEncoder().encode(event.currentTarget.value).length)
         }}
         onKeyDown={event => {
           if (event.key === 'Tab') {
@@ -73,7 +75,7 @@ const App = () => {
           <span className='rounded-lg border px-1'>save</span>
         </button>
         <span>words: {wordCount}</span>
-        <span>characters: {charCount}</span>
+        <span>characters: {charCount} ({byteCount} bytes)</span>
       </span>
     </div>
   </>
