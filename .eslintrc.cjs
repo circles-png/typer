@@ -273,7 +273,6 @@ module.exports = {
     'semi-style'                       : 'error',
     'sort-imports'                     : 'error',
     'sort-keys'                        : 'error',
-    'sort-vars'                        : 'error',
     'space-before-blocks'              : 'error',
     'space-before-function-paren'      : [ 'error', {
       anonymous : 'always',

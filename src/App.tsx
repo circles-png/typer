@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 const App = () => {
   const placeholders = [
@@ -10,11 +10,22 @@ const App = () => {
     'In a hole in the ground there lived...',
     'There was a boy called...'
   ],
+        text = useRef<HTMLTextAreaElement>(null),
+        save = () => {
+          const element = document.createElement('a')
+          element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(text.current?.value || '')}`)
+          element.setAttribute('download', 'typer.txt')
+          element.style.display = 'none'
+          document.body.appendChild(element)
+          element.click()
+          document.body.removeChild(element)
+        },
         [ wordCount, setWordCount ] = useState(0)
+
   return <>
-    <div className='grid place-content-center h-full'>
+    <div className='grid place-content-center h-full bg-gray-100 caret-black'>
       <textarea
-        className='resize-none appearance-none p-8 sm:p-16 w-screen h-screen bg-gray-100 selection:bg-gray-900 selection:text-gray-100'
+        className='resize-none p-8 sm:p-16 w-full selection:bg-gray-900 selection:text-gray-100 bg-transparent'
         placeholder={`${placeholders[Math.floor(Math.random() * placeholders.length)]}...`}
         onInput={event => {
           setWordCount(
@@ -37,10 +48,20 @@ const App = () => {
             event.currentTarget.selectionStart = start + 4
             event.currentTarget.selectionEnd = start + 4
           }
+          if ((event.getModifierState('Meta') || event.getModifierState('Control')) && event.key === 's') {
+            event.preventDefault()
+            save()
+          }
         }}
+        ref={text}
+        cols={1000}
+        rows={1000}
       />
-      <span className='absolute bottom-4 right-1/2 translate-x-1/2 flex divide-x-2 divide-gray-400 [&>*]:px-4 [&>*:last-child]:pr-0 [&>*:first-child]:pl-0 items-end shadow-lg rounded-xl border p-2 text-sm'>
-        <button className='flex flex-col items-center'>
+      <span className='flex divide-x-2 divide-gray-400 [&>*]:px-4 [&>*:last-child]:pr-0 [&>*:first-child]:pl-0 items-end shadow-lg rounded-xl border p-2 text-sm justify-center m-auto my-4'>
+        <button
+          className='flex flex-col items-center'
+          onClick={save}
+        >
           <span className='flex gap-1 items-center text-[8px] leading-none'>
             <span className='text-xs'>&#8984;</span>
             <span>+</span>
