@@ -12,9 +12,10 @@ const App = () => {
   ],
         text = useRef<HTMLTextAreaElement>(null),
         save = () => {
-          const element = document.createElement('a')
-          element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(text.current?.value || '')}`)
-          element.setAttribute('download', 'typer.txt')
+          const element = document.createElement('a'),
+                content = text.current?.value
+          element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(content || '')}`)
+          element.setAttribute('download', `${content?.split('\n')[0] || 'Typer Document'}.txt`)
           element.style.display = 'none'
           document.body.appendChild(element)
           element.click()
