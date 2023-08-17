@@ -4,6 +4,7 @@ export default {
     './index.html',
     './src/**/*.tsx'
   ],
-  plugins: [],
-  theme  : { extend: { fontFamily: { sans: 'Martian Mono' } } }
+  darkMode: 'class',
+  plugins : [],
+  theme   : { extend: { fontFamily: { sans: 'Martian Mono' } } }
 }
