@@ -1,5 +1,3 @@
-# vite project
+# typer
 
-a template for vite
-
-use degit
+a minimalist text editor for the web
