@@ -14,7 +14,7 @@ const App = () => {
   return <>
     <div className='grid place-content-center h-full'>
       <textarea
-        className='resize-none appearance-none p-8 sm:p-16 w-screen h-screen bg-gray-100'
+        className='resize-none appearance-none p-8 sm:p-16 w-screen h-screen bg-gray-100 selection:bg-gray-900 selection:text-gray-100'
         placeholder={`${placeholders[Math.floor(Math.random() * placeholders.length)]}...`}
         onInput={event => {
           setWordCount(
