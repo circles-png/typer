@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Menu from 'Menu'
+import Spotlight from 'components/Spotlight'
 import classNames from 'classNames'
-import useOperatingSystem from 'useOperatingSystem'
 
 const App = () => {
   const placeholders = [
@@ -30,7 +30,8 @@ const App = () => {
         [ darkMode, setDarkMode ] = useState(false),
         toggleDark = () => {
           setDarkMode(!darkMode)
-        }
+        },
+        [ spotlight, setSpotlight ] = useState(false)
 
   if (darkMode) {
     document.body.classList.add('dark')
@@ -50,7 +51,7 @@ const App = () => {
   return <>
     <div
       className={classNames(
-        'grid place-content-center h-full bg-gray-100 caret-gray-900 dark:bg-gray-900 dark:text-gray-100 dark:caret-gray-100 transition duration-1000 ease-out'
+        'grid place-content-center h-full bg-gray-100 caret-gray-900 dark:bg-gray-900 dark:text-gray-100 dark:caret-gray-100 duration-1000 ease-out transition'
       )}
       onKeyDown={event => {
         if ((event.getModifierState('Meta') || event.getModifierState('Control')) && event.key === 's') {
@@ -60,6 +61,14 @@ const App = () => {
         if ((event.getModifierState('Meta') || event.getModifierState('Control')) && event.key === 'b') {
           event.preventDefault()
           toggleDark()
+        }
+        if ((event.getModifierState('Meta') || event.getModifierState('Control')) && event.getModifierState('Shift') && event.key === 'p') {
+          event.preventDefault()
+          setSpotlight(!spotlight)
+          if (spotlight)
+            setTimeout(() => {
+              text.current?.focus()
+            }, 0)
         }
       }}
       tabIndex={0}
@@ -94,6 +103,7 @@ const App = () => {
         ref={text}
         cols={1000}
         rows={1000}
+        autoFocus
       />
       <Menu
         toggleDark={toggleDark}
@@ -103,6 +113,7 @@ const App = () => {
         charCount={charCount}
         byteCount={byteCount}
       />
+      <Spotlight spotlight={spotlight} />
     </div>
   </>
 }
