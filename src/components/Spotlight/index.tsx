@@ -6,7 +6,7 @@ type Command = {
   command: () => void
 }
 
-const Spotlight = ({ spotlight }: { spotlight: boolean }) => {
+const Spotlight = ({ spotlight, escape }: { spotlight: boolean, escape: () => void }) => {
   const input = useRef<HTMLInputElement>(null),
         commands: Command[] = [
           {
@@ -32,10 +32,11 @@ const Spotlight = ({ spotlight }: { spotlight: boolean }) => {
         [ selected, setSelected ] = useState(0)
   useEffect(() => {
     input.current?.focus()
+    input.current?.select()
   }, [spotlight])
   return <>
     <div
-      className='absolute top-1/4 left-1/2 -translate-x-1/2 w-1/2 sm:w-1/3 z-10 flex flex-col gap-2'
+      className='absolute top-1/4 left-1/2 -translate-x-1/2 w-1/2 sm:w-1/3 z-10 flex flex-col gap-2 selection:bg-gray-900 selection:text-gray-100 dark:selection:bg-gray-100 dark:selection:text-gray-900'
       onKeyDown={event => {
         if (event.key === 'Tab' || event.key === 'ArrowDown') {
           event.preventDefault()
@@ -48,6 +49,10 @@ const Spotlight = ({ spotlight }: { spotlight: boolean }) => {
         if (event.key === 'Enter') {
           event.preventDefault()
           matching[selected].command()
+        }
+        if (event.key === 'Escape') {
+          event.preventDefault()
+          escape()
         }
       }}
     >
@@ -107,6 +112,7 @@ const Spotlight = ({ spotlight }: { spotlight: boolean }) => {
                 ? 'bg-gray-200/70 dark:bg-gray-800/70'
                 : ''
             )}
+            onMouseEnter={() => setSelected(index)}
           >
             <span>{name}</span>
           </li>)}

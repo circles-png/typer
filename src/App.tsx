@@ -62,7 +62,7 @@ const App = () => {
           event.preventDefault()
           toggleDark()
         }
-        if ((event.getModifierState('Meta') || event.getModifierState('Control')) && event.getModifierState('Shift') && event.key === 'p') {
+        if ((event.getModifierState('Meta') || event.getModifierState('Control')) && event.getModifierState('Shift') && event.key === 'p' || event.key === 'Escape') {
           event.preventDefault()
           setSpotlight(!spotlight)
           if (spotlight)
@@ -113,7 +113,7 @@ const App = () => {
         charCount={charCount}
         byteCount={byteCount}
       />
-      <Spotlight spotlight={spotlight} />
+      <Spotlight spotlight={spotlight} escape={() => setSpotlight(false)} />
     </div>
   </>
 }
