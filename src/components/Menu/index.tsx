@@ -18,8 +18,8 @@ const Menu = (
 }
 ) => {
   const os = useOperatingSystem()
-  return <span className='flex flex-col items-stretch sm:flex-row divide-y-2 sm:divide-y-0 sm:divide-x-2 divide-gray-300 [&>*]:py-4 sm:[&>*]:py-0 sm:[&>*]:px-4 [&>*:last-child]:pb-0 sm:[&>*:last-child]:py-0 sm:[&>*:last-child]:pr-0 [&>*:first-child]:pt-0 sm:[&>*:first-child]:py-0 sm:[&>*:first-child]:pl-0 shadow-lg dark:shadow-white/10 rounded-xl border p-2 text-sm justify-center m-auto my-4 dark:divide-gray-700 border-gray-300 dark:border-gray-700'>
-    <div className='flex justify-evenly gap-4'>
+  return <span className='flex flex-col items-stretch sm:flex-row divide-y-2 sm:divide-y-0 sm:divide-x-2 divide-gray-300 [&>*]:py-2 sm:[&>*]:py-0 sm:[&>*]:px-2 [&>*:last-child]:pb-0 sm:[&>*:last-child]:py-0 sm:[&>*:last-child]:pr-0 [&>*:first-child]:pt-0 sm:[&>*:first-child]:py-0 sm:[&>*:first-child]:pl-0 shadow-lg dark:shadow-white/10 rounded-xl border p-2 text-sm justify-center m-auto my-4 dark:divide-gray-700 border-gray-300 dark:border-gray-700'>
+    <div className='flex justify-evenly gap-2'>
       <button
         className='flex flex-col items-center'
         onClick={toggleDark}
