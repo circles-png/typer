@@ -14,7 +14,7 @@ const Finder = ({ finder, text }: { finder: boolean, text: string }) => {
   return <>
     <div
       className={classNames(
-        'absolute h-full right-0 w-48 z-10 flex flex-col gap-2 selection:bg-gray-900 selection:text-gray-100 dark:selection:bg-gray-100 dark:selection:text-gray-900 p-4 transition duration-1000',
+        'absolute h-full right-0 w-64 z-10 flex flex-col gap-2 selection:bg-gray-900 selection:text-gray-100 dark:selection:bg-gray-100 dark:selection:text-gray-900 p-4 transition duration-1000',
         finder
           ? 'opacity-100'
           : 'translate-x-full opacity-0'
@@ -58,7 +58,7 @@ const Finder = ({ finder, text }: { finder: boolean, text: string }) => {
                   </span>
                   <span className='dark:text-gray-100 text-gray-900'>{inputText}</span>
                   <span className='bg-clip-text from-transparent from-20% dark:to-gray-400 to-gray-600 bg-gradient-to-l text-transparent whitespace-pre dark:via-gray-400/20 via-gray-600/20'>
-                    {text.substring((match.index || 0) + (inputText.length || 0), (match.index || 0) + 4 + 1 + (inputText.length || 0))
+                    {text.substring((match.index || 0) + (inputText.length || 0), (match.index || 0) + 4 + (inputText.length || 0))
                       .padEnd(4, ' ')}
                   </span>
                 </span>
