@@ -86,7 +86,7 @@ const Spotlight = ({ spotlight, escape, commands }: { spotlight: boolean, escape
             key={name}
             onClick={command}
             className={classNames(
-              'w-full rounded-lg p-2 transition',
+              'w-full rounded-lg p-2 transition cursor-pointer',
               index === selected
                 ? 'bg-gray-200/70 dark:bg-gray-800/70'
                 : ''

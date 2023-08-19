@@ -123,6 +123,22 @@ const App = () => {
         darkMode={darkMode}
         save={save}
         text={text}
+        spotlight={() => {
+          setSpotlight(!spotlight)
+          setFinder(false)
+          if (spotlight)
+            setTimeout(() => {
+              textArea.current?.focus()
+            }, 0)
+        }}
+        finder={() => {
+          setFinder(!finder)
+          setSpotlight(false)
+          if (finder)
+            setTimeout(() => {
+              textArea.current?.focus()
+            }, 0)
+        }}
       />
       <Spotlight spotlight={spotlight} escape={() => setSpotlight(false)} commands={commands} />
       <Finder finder={finder} text={text} escape={() => setFinder(false)} textArea={textArea} />
