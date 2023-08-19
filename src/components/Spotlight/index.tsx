@@ -36,7 +36,7 @@ const Spotlight = ({ spotlight, escape }: { spotlight: boolean, escape: () => vo
   }, [spotlight])
   return <>
     <div
-      className='absolute top-1/4 left-1/2 -translate-x-1/2 w-1/2 sm:w-1/3 z-10 flex flex-col gap-2 selection:bg-gray-900 selection:text-gray-100 dark:selection:bg-gray-100 dark:selection:text-gray-900'
+      className='absolute top-1/4 left-1/2 -translate-x-1/2 w-1/2 sm:w-1/3 z-30 flex flex-col gap-2 selection:bg-gray-900 selection:text-gray-100 dark:selection:bg-gray-100 dark:selection:text-gray-900'
       onKeyDown={event => {
         if (event.key === 'Tab' || event.key === 'ArrowDown') {
           event.preventDefault()
@@ -121,7 +121,7 @@ const Spotlight = ({ spotlight, escape }: { spotlight: boolean, escape: () => vo
     </div>
     <div
       className={classNames(
-        'absolute w-full h-full transition duration-1000',
+        'absolute w-full h-full transition duration-1000 z-20',
         spotlight
           ? 'backdrop-blur'
           : 'pointer-events-none'

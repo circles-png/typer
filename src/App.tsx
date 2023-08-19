@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import Finder from 'Finder'
 import Menu from 'Menu'
-import Spotlight from 'components/Spotlight'
+import Spotlight from 'Spotlight'
 import classNames from 'classNames'
 
 const App = () => {
@@ -13,10 +14,10 @@ const App = () => {
     'In a hole in the ground there lived',
     'There was a boy called'
   ],
-        text = useRef<HTMLTextAreaElement>(null),
+        textArea = useRef<HTMLTextAreaElement>(null),
         save = () => {
           const element = document.createElement('a'),
-                content = text.current?.value
+                content = textArea.current?.value
           element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(content || '')}`)
           element.setAttribute('download', `${content?.split('\n')[0] || 'Typer Document'}.txt`)
           element.style.display = 'none'
@@ -24,14 +25,14 @@ const App = () => {
           element.click()
           document.body.removeChild(element)
         },
-        [ wordCount, setWordCount ] = useState(0),
-        [ charCount, setCharCount ] = useState(0),
-        [ byteCount, setByteCount ] = useState(0),
+        [ text, setText ] = useState(''),
         [ darkMode, setDarkMode ] = useState(false),
         toggleDark = () => {
           setDarkMode(!darkMode)
         },
-        [ spotlight, setSpotlight ] = useState(false)
+        [ spotlight, setSpotlight ] = useState(false),
+        [ finder, setFinder ] = useState(false),
+        [ finderText, setFinderText ] = useState('')
 
   if (darkMode) {
     document.body.classList.add('dark')
@@ -51,7 +52,7 @@ const App = () => {
   return <>
     <div
       className={classNames(
-        'grid place-content-center h-full bg-gray-100 caret-gray-900 dark:bg-gray-900 dark:text-gray-100 dark:caret-gray-100 duration-1000 ease-out transition'
+        'grid place-content-center h-full bg-gray-100 caret-gray-900 dark:bg-gray-900 dark:text-gray-100 text-gray-900 dark:caret-gray-100 duration-1000 ease-out transition overflow-hidden relative'
       )}
       onKeyDown={event => {
         if ((event.getModifierState('Meta') || event.getModifierState('Control')) && event.key === 's') {
@@ -62,32 +63,30 @@ const App = () => {
           event.preventDefault()
           toggleDark()
         }
+        if ((event.getModifierState('Meta') || event.getModifierState('Control')) && event.key === 'f') {
+          event.preventDefault()
+          setFinder(!finder)
+          if (finder)
+            setTimeout(() => {
+              textArea.current?.focus()
+            }, 0)
+        }
         if ((event.getModifierState('Meta') || event.getModifierState('Control')) && event.getModifierState('Shift') && event.key === 'p' || event.key === 'Escape') {
           event.preventDefault()
           setSpotlight(!spotlight)
           if (spotlight)
             setTimeout(() => {
-              text.current?.focus()
+              textArea.current?.focus()
             }, 0)
         }
       }}
       tabIndex={0}
     >
       <textarea
-        className='resize-none p-8 sm:p-16 w-full selection:bg-gray-900 selection:text-gray-100 bg-transparent dark:selection:bg-gray-100 dark:selection:text-gray-900 outline-none'
+        className='resize-none m-8 sm:m-16 selection:bg-gray-900 selection:text-gray-100 bg-transparent dark:selection:bg-gray-100 dark:selection:text-gray-900 outline-none'
         placeholder={`${placeholders[Math.floor(Math.random() * placeholders.length)]}...`}
         onInput={event => {
-          setWordCount(
-            (
-              event.currentTarget.value
-                .replace(/[^\w\s]|_/ug, '')
-                .replace(/\s+/ug, ' ')
-                .toLowerCase()
-                .match(/\b[a-z\d]+\b/ug) || []
-            ).length
-          )
-          setCharCount(event.currentTarget.value.length)
-          setByteCount(new TextEncoder().encode(event.currentTarget.value).length)
+          setText(event.currentTarget.value)
         }}
         onKeyDown={event => {
           if (event.key === 'Tab') {
@@ -100,7 +99,7 @@ const App = () => {
             event.currentTarget.selectionEnd = start + 4
           }
         }}
-        ref={text}
+        ref={textArea}
         cols={1000}
         rows={1000}
         autoFocus
@@ -109,11 +108,12 @@ const App = () => {
         toggleDark={toggleDark}
         darkMode={darkMode}
         save={save}
-        wordCount={wordCount}
-        charCount={charCount}
-        byteCount={byteCount}
+        text={text}
       />
       <Spotlight spotlight={spotlight} escape={() => setSpotlight(false)} />
+      <Finder finder={finder} onInput={event => {
+        setFinderText(event.currentTarget.value)
+      }} text={text} />
     </div>
   </>
 }
