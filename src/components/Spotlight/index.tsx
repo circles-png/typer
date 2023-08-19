@@ -1,33 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import classNames from 'classNames'
 
-type Command = {
+export type Command = {
   name: string
   command: () => void
 }
-
-const Spotlight = ({ spotlight, escape }: { spotlight: boolean, escape: () => void }) => {
+const Spotlight = ({ spotlight, escape, commands }: { spotlight: boolean, escape: () => void, commands: Command[] }) => {
   const input = useRef<HTMLInputElement>(null),
-        commands: Command[] = [
-          {
-            command: () => {
-              console.log('find')
-            },
-            name: 'find'
-          },
-          {
-            command: () => {
-              console.log('find2')
-            },
-            name: 'find2'
-          },
-          {
-            command: () => {
-              console.log('find3')
-            },
-            name: 'find3'
-          }
-        ],
         [ matching, setMatching ] = useState<Command[]>([]),
         [ selected, setSelected ] = useState(0)
   useEffect(() => {

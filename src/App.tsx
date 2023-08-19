@@ -1,7 +1,7 @@
+import Spotlight, { Command } from 'Spotlight'
 import { useEffect, useRef, useState } from 'react'
 import Finder from 'Finder'
 import Menu from 'Menu'
-import Spotlight from 'Spotlight'
 import classNames from 'classNames'
 
 const App = () => {
@@ -31,7 +31,16 @@ const App = () => {
           setDarkMode(!darkMode)
         },
         [ spotlight, setSpotlight ] = useState(false),
-        [ finder, setFinder ] = useState(false)
+        [ finder, setFinder ] = useState(false),
+        commands: Command[] = [
+          {
+            command: () => {
+              setFinder(true)
+              setSpotlight(false)
+            },
+            name: 'find'
+          }
+        ]
 
   if (darkMode) {
     document.body.classList.add('dark')
@@ -115,7 +124,7 @@ const App = () => {
         save={save}
         text={text}
       />
-      <Spotlight spotlight={spotlight} escape={() => setSpotlight(false)} />
+      <Spotlight spotlight={spotlight} escape={() => setSpotlight(false)} commands={commands} />
       <Finder finder={finder} text={text} escape={() => setFinder(false)} textArea={textArea} />
     </div>
   </>
