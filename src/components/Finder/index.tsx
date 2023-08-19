@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import classNames from 'classNames'
 
 const Finder = ({ finder, text }: { finder: boolean, text: string }) => {
-  const input = useRef<HTMLInputElement>(null)
+  const input = useRef<HTMLInputElement>(null),
+        [ inputText, setInputText ] = useState('')
 
   useEffect(() => {
     if (!finder)
@@ -34,13 +35,16 @@ const Finder = ({ finder, text }: { finder: boolean, text: string }) => {
             type='text'
             className='w-full bg-inherit outline-none'
             ref={input}
+            onInput={event => {
+              setInputText(event.currentTarget.value)
+            }}
           />
         </div>
         <div className='p-2'>
           <ul className='rounded-lg px-2 border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 flex flex-col divide-y-2 divide-gray-300 dark:divide-gray-700'>
             {
-              (input.current?.value.length
-                ? Array.from(text.matchAll(new RegExp(input.current?.value || '', 'ug')))
+              (inputText.length
+                ? Array.from(text.matchAll(new RegExp(inputText || '', 'ug')))
                 : []).map(match => <div className='text-gray-400 dark:text-gray-600 flex py-1 justify-between'>
                 <span className='pr-2'>
                   {Array.from(text.substring(0, match.index))
@@ -49,9 +53,14 @@ const Finder = ({ finder, text }: { finder: boolean, text: string }) => {
                   {(match.index || 0) - text.lastIndexOf('\n', match.index) - 1}
                 </span>
                 <span className='pl-2'>
-                  <span className='bg-clip-text from-transparent dark:to-gray-400 to-gray-600 bg-gradient-to-r text-transparent'>{text.substring((match.index || 0) - 3, match.index)}</span>
-                  <span className='dark:text-gray-100 text-gray-900'>{input.current?.value}</span>
-                  <span className='bg-clip-text from-transparent dark:to-gray-400 to-gray-600 bg-gradient-to-l text-transparent'>{text.substring((match.index || 0) + (input.current?.value.length || 0), (match.index || 0) + 3 + 1 + (input.current?.value.length || 0))}</span>
+                  <span className='bg-clip-text from-transparent from-20% dark:to-gray-400 to-gray-600 bg-gradient-to-r text-transparent whitespace-pre dark:via-gray-400/20 via-gray-600/20'>
+                    {text.substring((match.index || 0) - 4, match.index).padStart(4, ' ')}
+                  </span>
+                  <span className='dark:text-gray-100 text-gray-900'>{inputText}</span>
+                  <span className='bg-clip-text from-transparent from-20% dark:to-gray-400 to-gray-600 bg-gradient-to-l text-transparent whitespace-pre dark:via-gray-400/20 via-gray-600/20'>
+                    {text.substring((match.index || 0) + (inputText.length || 0), (match.index || 0) + 4 + 1 + (inputText.length || 0))
+                      .padEnd(4, ' ')}
+                  </span>
                 </span>
               </div>)
             }
