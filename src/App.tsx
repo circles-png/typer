@@ -65,14 +65,16 @@ const App = () => {
         if ((event.getModifierState('Meta') || event.getModifierState('Control')) && event.key === 'f') {
           event.preventDefault()
           setFinder(!finder)
+          setSpotlight(false)
           if (finder)
             setTimeout(() => {
               textArea.current?.focus()
             }, 0)
         }
-        if ((event.getModifierState('Meta') || event.getModifierState('Control')) && event.getModifierState('Shift') && event.key === 'p' || event.key === 'Escape') {
+        if ((event.getModifierState('Meta') || event.getModifierState('Control')) && event.getModifierState('Shift') && event.key === 'p') {
           event.preventDefault()
           setSpotlight(!spotlight)
+          setFinder(false)
           if (spotlight)
             setTimeout(() => {
               textArea.current?.focus()
@@ -102,6 +104,10 @@ const App = () => {
         cols={1000}
         rows={1000}
         autoFocus
+        onFocus={() => {
+          setSpotlight(false)
+          setFinder(false)
+        }}
       />
       <Menu
         toggleDark={toggleDark}
@@ -110,7 +116,7 @@ const App = () => {
         text={text}
       />
       <Spotlight spotlight={spotlight} escape={() => setSpotlight(false)} />
-      <Finder finder={finder} text={text} />
+      <Finder finder={finder} text={text} escape={() => setFinder(false)} textArea={textArea} />
     </div>
   </>
 }
