@@ -31,8 +31,7 @@ const App = () => {
           setDarkMode(!darkMode)
         },
         [ spotlight, setSpotlight ] = useState(false),
-        [ finder, setFinder ] = useState(false),
-        [ finderText, setFinderText ] = useState('')
+        [ finder, setFinder ] = useState(false)
 
   if (darkMode) {
     document.body.classList.add('dark')
@@ -111,9 +110,7 @@ const App = () => {
         text={text}
       />
       <Spotlight spotlight={spotlight} escape={() => setSpotlight(false)} />
-      <Finder finder={finder} onInput={event => {
-        setFinderText(event.currentTarget.value)
-      }} text={text} />
+      <Finder finder={finder} text={text} />
     </div>
   </>
 }

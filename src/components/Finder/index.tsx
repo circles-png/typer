@@ -1,7 +1,7 @@
-import { FormEvent, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import classNames from 'classNames'
 
-const Finder = ({ finder, onInput, text }: { finder: boolean, onInput: (event: FormEvent<HTMLInputElement>) => void, text: string }) => {
+const Finder = ({ finder, text }: { finder: boolean, text: string }) => {
   const input = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -34,7 +34,6 @@ const Finder = ({ finder, onInput, text }: { finder: boolean, onInput: (event: F
             type='text'
             className='w-full bg-inherit outline-none'
             ref={input}
-            onInput={onInput}
           />
         </div>
         <div className='p-2'>
